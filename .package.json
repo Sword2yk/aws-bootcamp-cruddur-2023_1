@@ -13,7 +13,7 @@
       },
       {
         "name": "npm installation",
-        "init": "cd /workspace/aws-bootcamp-cruddur-2023/frontend-react-js\nnpm i\nexit\n"
+        "init": "cd /workspace/aws-bootcamp-cruddur-2023/frontend-react-js\npm i\nexit\n"
       }
     ],
     "vscode": {
