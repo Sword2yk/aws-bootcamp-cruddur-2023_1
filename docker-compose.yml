@@ -53,8 +53,13 @@ services:
   xray-daemon:
     image: "amazon/aws-xray-daemon"
     environment:
+<<<<<<< HEAD
       AWS_ACCESS_KEY_ID: "AKIAUGTCW4JTCYMS2DNB"
       AWS_SECRET_ACCESS_KEY: "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"
+=======
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+>>>>>>> 8f86713bb4f538520ad7d43ffca1772d5991fbb4
       AWS_REGION: "us-east-1"
     command:
       - "xray -o -b xray-daemon:2000"
