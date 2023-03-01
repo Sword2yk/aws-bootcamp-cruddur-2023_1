@@ -4,7 +4,7 @@ services:
     environment:
       FRONTEND_URL: "https://${CODESPACE_NAME}-3000.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
       BACKEND_URL: "https://${CODESPACE_NAME}-4567.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
-      OTEL_SERVICE_NAME: '$backend-flask'
+      OTEL_SERVICE_NAME: "backend-flask"
       OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.honeycomb.io"
       OTEL_EXPORTER_OTLP_HEADERS: "x-honeycomb-team=Ux4Bq7xoW0heho2Fat2vXG"
       AWS_XRAY_URL: "*4567-${CODESPACE_NAME}.${CODESPACES_CLUSTER_HOST}*"
@@ -53,8 +53,8 @@ services:
   xray-daemon:
     image: "amazon/aws-xray-daemon"
     environment:
-      AWS_ACCESS_KEY_ID: "AKIAQQ4WU5RFSGNS7MVN"
-      AWS_SECRET_ACCESS_KEY: "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"
+      AWS_ACCESS_KEY_ID: "AKIAUGTCW4JTCYMS2DNB"
+      AWS_SECRET_ACCESS_KEY: "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"
       AWS_REGION: "us-east-1"
     command:
       - "xray -o -b xray-daemon:2000"
