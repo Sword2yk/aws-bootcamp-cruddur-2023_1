@@ -4,7 +4,6 @@ from flask_cors import CORS, cross_origin
 import os
 
 from services.home_activities import *
-from services.notifications_activities import *
 from services.user_activities import *
 from services.create_activity import *
 from services.create_reply import *
@@ -33,6 +32,10 @@ provider = TracerProvider()
 processor = BatchSpanProcessor(OTLPSpanExporter())
 provider.add_span_processor(processor)
 
+# X-RAY ----------
+xray_url = os.getenv("AWS_XRAY_URL")
+xray_recorder.configure(service='backend-flask', dynamic_naming=xray_url)
+
 # Show this in the logs within the backend-flask app (STDOUT)
 simple_processor = SimpleSpanProcessor(ConsoleSpanExporter())
 provider.add_span_processor(simple_processor)
@@ -40,16 +43,16 @@ provider.add_span_processor(simple_processor)
 trace.set_tracer_provider(provider)
 tracer = trace.get_tracer(__name__)
 
-# X-RAY ----------
-xray_url = os.getenv("AWS_XRAY_URL")
-xray_recorder.configure(service='backend-flask', dynamic_naming=xray_url)
-
 app = Flask(__name__)
+
+# X-RAY ----------
+XRayMiddleware(app, xray_recorder)
 
 # HoneyComb ---------
 # Initialize automatic instrumentation with Flask
 FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
+
 
 frontend = os.getenv('FRONTEND_URL')
 backend = os.getenv('BACKEND_URL')
@@ -100,11 +103,6 @@ def data_create_message():
 @app.route("/api/activities/home", methods=['GET'])
 def data_home():
   data = HomeActivities.run()
-  return data, 200
-
-@app.route("/api/activities/notifications", methods=['GET'])
-def data_notifications():
-  data = NotificationsActivities.run()
   return data, 200
 
 @app.route("/api/activities/@<string:handle>", methods=['GET'])
